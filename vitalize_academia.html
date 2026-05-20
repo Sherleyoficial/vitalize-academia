@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Resultados da Pesquisa de Satisfação — Vitalize Academia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F7F4;--bg2:#F1F4F2;--card:#FFFFFF;
+  --ink:#20242A;--ink2:#303741;--muted:#697280;--soft:#98A2B3;
+  --line:#E6E4DF;--line2:#EEF0EA;
+  --teal:#007C78;--teal2:#0A8F86;--tealDark:#075E56;--tealSoft:#E5F5F2;
+  --mag:#C0265C;--mag2:#D44472;--magSoft:#FBE8F0;
+  --green:#11845B;--greenSoft:#EAF8F0;
+  --amber:#B7791F;--amberSoft:#FFF5DA;
+  --red:#C2413A;--redSoft:#FDECEC;
+  --shadow:0 20px 60px rgba(16,24,40,.08);
+  --r:20px;--r2:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  font-family:"Manrope",system-ui,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 5% 10%,rgba(0,124,120,.09),transparent 28%),
+    radial-gradient(circle at 92% 5%,rgba(192,38,92,.08),transparent 26%),
+    linear-gradient(135deg,#fff 0%,var(--bg) 52%,#F4F9F7 100%);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.bg-mark{position:fixed;inset:0;pointer-events:none;opacity:.55;overflow:hidden;z-index:-1}
+.bg-mark:before{content:"";position:absolute;top:40px;left:-80px;width:240px;height:240px;border:1px solid rgba(0,124,120,.22);border-radius:50%}
+.bg-mark:after{content:"";position:absolute;right:-140px;bottom:-100px;width:340px;height:340px;border:1px solid rgba(192,38,92,.16);border-radius:50%}
+.page{max-width:960px;margin:0 auto;padding:28px 22px 56px}
+
+.header{text-align:center;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.brand-title{font-size:26px;font-weight:800;letter-spacing:6px;color:var(--tealDark);text-transform:uppercase}
+.brand-sub{font-size:11px;font-weight:800;letter-spacing:5px;color:var(--mag);text-transform:uppercase;margin-top:4px}
+.athlete-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px}
+.athlete-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal2));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0}
+.athlete-info{text-align:left}
+.athlete-info h1{font-size:20px;font-weight:800;letter-spacing:-.4px;color:var(--ink)}
+.athlete-info p{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
+.header-date{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--soft);text-transform:uppercase;margin-top:12px}
+
+.sticky-nav{position:sticky;top:0;z-index:20;display:flex;justify-content:center;gap:4px;padding:7px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(16,24,40,.05);margin-bottom:28px;overflow-x:auto}
+.tab{border:0;background:transparent;padding:10px 18px;border-radius:999px;color:var(--muted);font-size:12px;font-weight:800;cursor:pointer;transition:.18s;white-space:nowrap;font-family:"Manrope",sans-serif}
+.tab:hover{color:var(--ink)}
+.tab.active{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;box-shadow:0 8px 22px rgba(0,124,120,.2)}
+
+.section{display:none}.section.active{display:block}
+
+.card{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:0 6px 20px rgba(16,24,40,.04);margin-bottom:16px}
+.card-label{color:var(--soft);font-size:10px;letter-spacing:1.6px;font-weight:800;text-transform:uppercase;margin-bottom:14px}
+.card h2{font-size:20px;font-weight:800;letter-spacing:-.4px;color:var(--ink);margin-bottom:10px}
+.card p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:8px}
+.card p strong{color:var(--ink)}
+.card p:last-child{margin-bottom:0}
+
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.metric{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:var(--r2);padding:18px 14px;text-align:center;box-shadow:0 4px 12px rgba(16,24,40,.04)}
+.metric-val{font-size:28px;font-weight:800;letter-spacing:-1px;line-height:1;color:var(--teal)}
+.metric-val.mag{color:var(--mag)}.metric-val.green{color:var(--green)}.metric-val.amber{color:var(--amber)}.metric-val.red{color:var(--red)}
+.metric-unit{font-size:11px;color:var(--soft);font-weight:700;margin-top:2px}
+.metric-label{font-size:11px;color:var(--muted);font-weight:700;margin-top:6px}
+
+.semaforo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.sem{background:#fff;border:1px solid var(--line);border-radius:var(--r2);padding:14px;display:flex;align-items:center;gap:10px}
+.sem-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dot-teal{background:var(--teal);box-shadow:0 0 6px rgba(0,124,120,.4)}
+.dot-green{background:var(--green);box-shadow:0 0 6px rgba(17,132,91,.4)}
+.dot-amber{background:var(--amber);box-shadow:0 0 6px rgba(183,121,31,.4)}
+.dot-red{background:var(--red);box-shadow:0 0 6px rgba(194,65,58,.4)}
+.dot-mag{background:var(--mag);box-shadow:0 0 6px rgba(192,38,92,.4)}
+.sem-label{font-size:11px;color:var(--muted);font-weight:600}
+.sem-val{font-size:12px;font-weight:800}
+.sv-teal{color:var(--tealDark)}.sv-green{color:var(--green)}.sv-amber{color:var(--amber)}.sv-red{color:var(--red)}.sv-mag{color:var(--mag)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.tbl th{text-align:left;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft);padding:0 0 12px}
+.tbl td{padding:11px 0;border-bottom:1px solid var(--line2);color:var(--muted);font-size:13px;font-weight:600}
+.tbl td:first-child{color:var(--ink);font-weight:700}
+.tbl td:last-child{text-align:right;font-weight:800;color:var(--ink)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr.hl td{background:var(--tealSoft);padding-left:10px;padding-right:10px}
+.tbl tr.hl td:first-child{color:var(--tealDark)}
+.tbl tr.hl td:last-child{color:var(--teal)}
+.tbl tr.warn td:last-child{color:var(--amber)}
+.tbl tr.danger td:last-child{color:var(--red)}
+
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 12px;font-size:11px;font-weight:800}
+.badge.teal{background:var(--tealSoft);color:var(--tealDark);border:1px solid rgba(0,124,120,.14)}
+.badge.green{background:var(--greenSoft);color:var(--green);border:1px solid rgba(17,132,91,.13)}
+.badge.amber{background:var(--amberSoft);color:var(--amber);border:1px solid rgba(183,121,31,.14)}
+.badge.red{background:var(--redSoft);color:var(--red);border:1px solid rgba(194,65,58,.14)}
+.badge.mag{background:var(--magSoft);color:var(--mag);border:1px solid rgba(192,38,92,.14)}
+
+.box{margin-top:12px;padding:16px 18px;border-radius:var(--r2);font-size:13px;line-height:1.65}
+.box strong{display:block;font-size:13px;font-weight:800;margin-bottom:4px}
+.box p{font-size:13px;margin:0;color:var(--muted)}
+.box.teal{background:var(--tealSoft);border:1px solid rgba(0,124,120,.18)}.box.teal strong{color:var(--tealDark)}
+.box.amber{background:var(--amberSoft);border:1px solid rgba(183,121,31,.2)}.box.amber strong{color:var(--amber)}
+.box.red{background:var(--redSoft);border:1px solid rgba(194,65,58,.18)}.box.red strong{color:var(--red)}
+.box.green{background:var(--greenSoft);border:1px solid rgba(17,132,91,.18)}.box.green strong{color:var(--green)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+
+.bar-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2)}
+.bar-row:last-child{border-bottom:none}
+.bar-name{font-size:12px;color:var(--muted);font-weight:600;width:185px;flex-shrink:0}
+.bar-track{flex:1;height:6px;background:var(--line2);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px}
+.bar-val{font-size:12px;font-weight:800;color:var(--ink);width:28px;text-align:right;flex-shrink:0}
+
+.quote-card{border-left:3px solid var(--mag);background:var(--magSoft);border-radius:0 var(--r2) var(--r2) 0;padding:14px 16px;margin-bottom:10px}
+.quote-text{font-size:13px;color:var(--ink2);font-style:italic;line-height:1.7}
+.quote-auth{font-size:11px;color:var(--muted);margin-top:6px;font-weight:700}
+
+.pos-card{background:var(--greenSoft);border:1px solid rgba(17,132,91,.18);border-radius:var(--r2);padding:16px;display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.pos-pct{font-size:32px;font-weight:800;color:var(--green);line-height:1;flex-shrink:0;width:64px;text-align:center}
+.pos-desc{font-size:13px;color:var(--ink2);line-height:1.6}
+.pos-desc strong{color:var(--green)}
+
+.warn-card{background:var(--amberSoft);border:1px solid rgba(183,121,31,.2);border-radius:var(--r2);padding:16px;display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.warn-pct{font-size:32px;font-weight:800;color:var(--amber);line-height:1;flex-shrink:0;width:64px;text-align:center}
+.warn-desc{font-size:13px;color:var(--ink2);line-height:1.6}
+.warn-desc strong{color:var(--amber)}
+
+.red-card{background:var(--redSoft);border:1px solid rgba(194,65,58,.18);border-radius:var(--r2);padding:16px;display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.red-pct{font-size:32px;font-weight:800;color:var(--red);line-height:1;flex-shrink:0;width:64px;text-align:center}
+.red-desc{font-size:13px;color:var(--ink2);line-height:1.6}
+.red-desc strong{color:var(--red)}
+
+.risk-header th{background:var(--tealDark);color:rgba(255,255,255,.8);padding:10px 8px;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;text-align:left;font-weight:800}
+.tbl.risk-tbl td{padding:9px 8px;vertical-align:top}
+.tbl.risk-tbl tr:nth-child(even) td{background:var(--bg2)}
+.score-red{color:var(--red);font-weight:800}
+.score-amber{color:var(--amber);font-weight:800}
+.nps-red{color:var(--red);font-weight:800}
+.nps-amber{color:var(--amber);font-weight:800}
+.nps-green{color:var(--green);font-weight:800}
+.td-center{text-align:center}
+.td-name{color:var(--ink);font-weight:700}
+
+.plist{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.pitem{display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--r2);padding:14px}
+.pnum{font-size:22px;font-weight:800;color:var(--teal);line-height:1;flex-shrink:0;width:24px}
+.ptext strong{display:block;font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.ptext span{font-size:12px;color:var(--muted);line-height:1.6}
+
+.watermark{text-align:center;margin-bottom:20px;padding:10px 20px;background:var(--tealSoft);border-radius:var(--r2);border:1px solid rgba(0,124,120,.15)}
+.watermark p{font-size:11px;color:var(--tealDark);font-weight:800;letter-spacing:1px}
+
+.footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-left{font-size:13px;font-weight:800;color:var(--tealDark)}
+.footer-left span{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:2px}
+.footer-right{font-size:11px;color:var(--soft);text-align:right;font-weight:600}
+
+@media(max-width:680px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .semaforo{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .sticky-nav{justify-content:flex-start;border-radius:20px}
+  .footer{flex-direction:column;align-items:flex-start}
+  .footer-right{text-align:left}
+  .bar-name{width:130px}
+}
+</style>
+</head>
+<body>
+<div class="bg-mark"></div>
+<main class="page">
+
+<header class="header">
+  <div class="brand-title">Vitalize Academia</div>
+  <div class="brand-sub">Resultados da Pesquisa de Satisfação · Abril 2026</div>
+  <div class="athlete-row">
+    <div class="athlete-avatar">VA</div>
+    <div class="athlete-info">
+      <h1>Diagnóstico Estratégico Completo</h1>
+      <p>97 respostas coletadas · Consultoria: Sherley Ferreira · Ecossistema IA Fitness™</p>
+    </div>
+  </div>
+  <div class="header-date">Abril 2026 · Sistema Lucro Invisível™</div>
+</header>
+
+<div class="watermark">
+  <p>📊 Dashboard gerado pelo Sistema Lucro Invisível™ · Consultor Sherley Ferreira · Ecossistema IA Fitness™</p>
+</div>
+
+<nav class="sticky-nav">
+  <button class="tab active" onclick="showTab('visao',this)">Visão Geral</button>
+  <button class="tab" onclick="showTab('positivos',this)">Pontos Fortes</button>
+  <button class="tab" onclick="showTab('gargalos',this)">Gargalos</button>
+  <button class="tab" onclick="showTab('alunos',this)">Alunos em Risco</button>
+  <button class="tab" onclick="showTab('oportunidade',this)">Oportunidade</button>
+</nav>
+
+<!-- VISÃO GERAL -->
+<section class="section active" id="visao">
+
+  <div class="semaforo">
+    <div class="sem"><div class="sem-dot dot-amber"></div><div><div class="sem-label">NPS Médio</div><div class="sem-val sv-amber">8,1 — Regular</div></div></div>
+    <div class="sem"><div class="sem-dot dot-green"></div><div><div class="sem-label">Promotores (9–10)</div><div class="sem-val sv-green">61 alunos — 63%</div></div></div>
+    <div class="sem"><div class="sem-dot dot-amber"></div><div><div class="sem-label">Neutros (7–8)</div><div class="sem-val sv-amber">24 alunos — 25%</div></div></div>
+    <div class="sem"><div class="sem-dot dot-red"></div><div><div class="sem-label">Detratores (0–6)</div><div class="sem-val sv-red">12 alunos — 12%</div></div></div>
+    <div class="sem"><div class="sem-dot dot-red"></div><div><div class="sem-label">Alto Risco</div><div class="sem-val sv-red">17 alunos — ação já</div></div></div>
+    <div class="sem"><div class="sem-dot dot-amber"></div><div><div class="sem-label">Médio Risco</div><div class="sem-val sv-amber">22 alunos — monitorar</div></div></div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><div class="metric-val amber">8,1</div><div class="metric-unit">NPS médio</div><div class="metric-label">97 respostas</div></div>
+    <div class="metric"><div class="metric-val red">17</div><div class="metric-unit">alunos</div><div class="metric-label">alto risco</div></div>
+    <div class="metric"><div class="metric-val amber">22</div><div class="metric-unit">alunos</div><div class="metric-label">médio risco</div></div>
+    <div class="metric"><div class="metric-val mag">61</div><div class="metric-unit">alunos</div><div class="metric-label">potencial upgrade</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Diagnóstico Central</div>
+    <h2>Base insatisfeita crescendo em silêncio — churn acima de 30%</h2>
+    <p>A Vitalize tem <strong>286 alunos ativos</strong> e registra churn mensal de <strong>31,4%</strong> — isso significa que quase <strong>1 em cada 3 alunos</strong> sai todo mês. A pesquisa revelou que o problema não está na estrutura física, que é bem avaliada. Está na operação da equipe.</p>
+    <p><strong>12 alunos são detratores</strong> — quase o triplo do esperado para uma academia saudável. Esses alunos estão ativamente insatisfeitos e podem influenciar negativamente outras pessoas dentro e fora da academia.</p>
+    <div class="box red">
+      <strong>→ Churn silencioso alimentado por falha de atendimento</strong>
+      <p>Os alunos não reclamam antes de cancelar. Eles simplesmente param de vir. A pesquisa identificou os nomes, os horários e os motivos — agora é hora de agir antes que a perda se torne irreversível.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-label">NPS por tempo de academia</div>
+      <table class="tbl">
+        <tr><th>Tempo</th><th style="text-align:right">NPS médio</th></tr>
+        <tr class="hl"><td>Menos de 3 meses</td><td>9,1</td></tr>
+        <tr><td>Entre 3 e 6 meses</td><td>8,4</td></tr>
+        <tr class="warn"><td>Entre 6 e 12 meses</td><td>7,6</td></tr>
+        <tr class="danger"><td>Mais de 1 ano</td><td>6,9</td></tr>
+      </table>
+      <div class="box red" style="margin-top:14px">
+        <strong>→ Veteranos em colapso de satisfação</strong>
+        <p>Alunos com mais de 1 ano têm NPS médio de 6,9 — zona de detrator. São os que mais pagaram e os que mais estão saindo.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Perfil dos respondentes</div>
+      <table class="tbl">
+        <tr><th>Faixa etária</th><th style="text-align:right">Alunos</th></tr>
+        <tr><td>20–30 anos</td><td>38</td></tr>
+        <tr><td>31–40 anos</td><td>24</td></tr>
+        <tr><td>41–50 anos</td><td>18</td></tr>
+        <tr><td>Menos de 20 anos</td><td>10</td></tr>
+        <tr><td>Acima de 50 anos</td><td>7</td></tr>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+<!-- PONTOS FORTES -->
+<section class="section" id="positivos">
+
+  <div class="card">
+    <div class="card-label">O que a Vitalize faz bem</div>
+    <h2>Estrutura física e localização são diferenciais reais</h2>
+    <p>Mesmo com problemas operacionais sérios, a academia tem ativos que precisam ser preservados e comunicados melhor. Esses pontos são a base para reconstruir a satisfação.</p>
+  </div>
+
+  <div class="pos-card">
+    <div class="pos-pct">89%</div>
+    <div class="pos-desc">avaliam as instalações como <strong>Bom</strong> ou <strong>Excelente</strong> — 86 de 97 alunos. Espaço e equipamentos são pontos fortes consistentes.</div>
+  </div>
+  <div class="pos-card">
+    <div class="pos-pct">84%</div>
+    <div class="pos-desc">sentem que o plano entrega <strong>valor pelo preço</strong> — 81 de 97 alunos. A percepção de custo-benefício ainda sustenta a base.</div>
+  </div>
+  <div class="warn-card">
+    <div class="warn-pct">76%</div>
+    <div class="warn-desc">avaliam a <strong>competência técnica</strong> dos instrutores como Boa ou Excelente — 74 de 97. Abaixo do esperado. Indica que parte da equipe está aquém tecnicamente.</div>
+  </div>
+  <div class="warn-card">
+    <div class="warn-pct">58%</div>
+    <div class="warn-desc">dos novatos tiveram a <strong>ficha feita no primeiro dia</strong> — 14 de 24. Menos da metade. O onboarding está falhando desde a chegada do aluno.</div>
+  </div>
+
+  <div class="card" style="margin-top:6px">
+    <div class="card-label">O que os alunos mais valorizam na Vitalize</div>
+    <div class="bar-row"><span class="bar-name">Qualidade dos equipamentos</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--teal)"></div></div><span class="bar-val">29</span></div>
+    <div class="bar-row"><span class="bar-name">Preço / custo-benefício</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:var(--teal2)"></div></div><span class="bar-val">21</span></div>
+    <div class="bar-row"><span class="bar-name">Localização</span><div class="bar-track"><div class="bar-fill" style="width:59%;background:var(--green)"></div></div><span class="bar-val">17</span></div>
+    <div class="bar-row"><span class="bar-name">Ambiente e clima</span><div class="bar-track"><div class="bar-fill" style="width:45%;background:var(--amber)"></div></div><span class="bar-val">13</span></div>
+    <div class="bar-row"><span class="bar-name">Atendimento dos instrutores</span><div class="bar-track"><div class="bar-fill" style="width:24%;background:var(--red)"></div></div><span class="bar-val">7</span></div>
+    <div class="box amber" style="margin-top:14px">
+      <strong>→ Atendimento é o ponto mais fraco — e deveria ser o mais forte</strong>
+      <p>Na academia saudável, atendimento lidera o ranking do que os alunos valorizam. Aqui aparece em último. Isso explica o churn.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- GARGALOS -->
+<section class="section" id="gargalos">
+
+  <div class="card">
+    <div class="card-label">Onde a operação está falhando</div>
+    <h2>Equipe: o maior problema operacional da Vitalize</h2>
+    <p>A pesquisa é direta: <strong>61 alunos</strong> relataram problemas com ficha ou acompanhamento. <strong>38 alunos</strong> já sentiram falta de atenção — mais de 1 em cada 3 respondentes. Isso não é pontual. É estrutural.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-label">Problemas com ficha e acompanhamento</div>
+      <div class="bar-row"><span class="bar-name">Ficha demorou ou não foi feita</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--red)"></div></div><span class="bar-val">61</span></div>
+      <div class="bar-row"><span class="bar-name">Sentiram falta de atenção</span><div class="bar-track"><div class="bar-fill" style="width:62%;background:var(--red)"></div></div><span class="bar-val">38</span></div>
+      <div class="bar-row"><span class="bar-name">Acompanhamento insuficiente</span><div class="bar-track"><div class="bar-fill" style="width:57%;background:var(--amber)"></div></div><span class="bar-val">35</span></div>
+      <div class="bar-row"><span class="bar-name">Atendimento abaixo da expectativa</span><div class="bar-track"><div class="bar-fill" style="width:26%;background:var(--amber)"></div></div><span class="bar-val">16</span></div>
+      <div class="bar-row"><span class="bar-name">Ficha nunca foi feita</span><div class="bar-track"><div class="bar-fill" style="width:18%;background:var(--red)"></div></div><span class="bar-val">11</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Motivos que levariam ao cancelamento</div>
+      <div class="bar-row"><span class="bar-name">Falta atenção dos instrutores</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--red)"></div></div><span class="bar-val">31</span></div>
+      <div class="bar-row"><span class="bar-name">Aumento de preço</span><div class="bar-track"><div class="bar-fill" style="width:84%;background:var(--amber)"></div></div><span class="bar-val">26</span></div>
+      <div class="bar-row"><span class="bar-name">Problemas com equipamentos</span><div class="bar-track"><div class="bar-fill" style="width:45%;background:var(--amber)"></div></div><span class="bar-val">14</span></div>
+      <div class="bar-row"><span class="bar-name">Já pensou em cancelar</span><div class="bar-track"><div class="bar-fill" style="width:39%;background:var(--red)"></div></div><span class="bar-val">12</span></div>
+      <div class="bar-row"><span class="bar-name">Pretende continuar</span><div class="bar-track"><div class="bar-fill" style="width:36%;background:var(--green)"></div></div><span class="bar-val">11</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">O que os alunos disseram — voz real</div>
+    <h2>Respostas abertas sobre atendimento</h2>
+    <p style="margin-bottom:16px">Falas representativas coletadas na pesquisa. São o que os alunos sentem mas raramente dizem diretamente.</p>
+
+    <div class="quote-card">
+      <div class="quote-text">"Cheguei na academia, fui apresentada a um professor que sumiu no dia seguinte. Passei duas semanas sem ficha e sem ninguém me orientar."</div>
+      <div class="quote-auth">Aluna · NPS 3 · Menos de 3 meses · ALTO RISCO</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-text">"Os professores ficam no celular ou conversando entre si. Já pedi ajuda três vezes e fui ignorado. Só não cancelei ainda porque a academia é perto de casa."</div>
+      <div class="quote-auth">Aluno · NPS 4 · Mais de 1 ano · ALTO RISCO</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-text">"Minha ficha tem mais de 6 meses sem ser atualizada. Já pedi duas vezes. Me disseram que iam trocar e não trocaram."</div>
+      <div class="quote-auth">Aluna · NPS 6 · Mais de 1 ano · ALTO RISCO</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-text">"O ambiente é bom, os equipamentos são razoáveis, mas me sinto invisível durante o treino. Ninguém pergunta se estou precisando de ajuda."</div>
+      <div class="quote-auth">Aluno · NPS 7 · 6–12 meses</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-text">"Quando comecei, tive atenção. Depois de 3 meses, parece que virei invisível. O professor só olha para os alunos novos."</div>
+      <div class="quote-auth">Aluna · NPS 6 · Mais de 1 ano · ALTO RISCO</div>
+    </div>
+
+    <div class="box red" style="margin-top:16px">
+      <strong>→ O padrão é claro: atenção no início, abandono depois</strong>
+      <p>Os alunos novos recebem algum cuidado. Os veteranos são ignorados. Esse comportamento inverte a lógica de retenção — e é a principal causa do churn acima de 30%.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ALUNOS EM RISCO -->
+<section class="section" id="alunos">
+
+  <div class="card">
+    <div class="card-label">Como o score foi calculado</div>
+    <h2>Cada aluno recebeu uma pontuação de risco</h2>
+    <p>Combinando: NPS baixo, falta de atenção relatada, acompanhamento insuficiente, já pensou em cancelar e percepção de valor do plano. Quanto maior o score, mais urgente a ação.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Alto Risco — Ação Imediata (score ≥ 5)</div>
+    <p style="margin-bottom:14px;font-size:13px">17 alunos identificados. Contato individual deve acontecer esta semana.</p>
+    <div style="overflow-x:auto">
+      <table class="tbl risk-tbl">
+        <thead>
+          <tr class="risk-header">
+            <th>Nome</th>
+            <th style="text-align:center">Horário</th>
+            <th style="text-align:center">Tempo</th>
+            <th style="text-align:center">NPS</th>
+            <th>Principal risco</th>
+            <th style="text-align:center">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-name">Fernanda Oliveira Souza</td><td class="td-center">Manhã</td><td class="td-center">+1 ano</td><td class="td-center nps-red">3</td><td>Detratora · ficha nunca feita</td><td class="td-center score-red">13</td></tr>
+          <tr><td class="td-name">Ricardo Alves Pereira</td><td class="td-center">Noite</td><td class="td-center">+1 ano</td><td class="td-center nps-red">4</td><td>Já pensou cancelar · professor no celular</td><td class="td-center score-red">12</td></tr>
+          <tr><td class="td-name">Camila Rocha Martins</td><td class="td-center">Tarde</td><td class="td-center">+1 ano</td><td class="td-center nps-red">5</td><td>Falta atenção frequente · ficha desatualizada</td><td class="td-center score-red">11</td></tr>
+          <tr><td class="td-name">Diego Santos Lima</td><td class="td-center">Manhã</td><td class="td-center">+1 ano</td><td class="td-center nps-red">4</td><td>Detrator · sente-se invisível</td><td class="td-center score-red">11</td></tr>
+          <tr><td class="td-name">Patrícia Mendes Costa</td><td class="td-center">Noite</td><td class="td-center">6–12m</td><td class="td-center nps-red">5</td><td>Já pensou cancelar · sem orientação</td><td class="td-center score-red">10</td></tr>
+          <tr><td class="td-name">André Vieira Nascimento</td><td class="td-center">Tarde</td><td class="td-center">+1 ano</td><td class="td-center nps-red">6</td><td>Falta atenção com frequência</td><td class="td-center score-red">9</td></tr>
+          <tr><td class="td-name">Juliana Ferreira Cardoso</td><td class="td-center">Manhã</td><td class="td-center">+1 ano</td><td class="td-center nps-red">5</td><td>Já pensou cancelar · ficha 6 meses sem trocar</td><td class="td-center score-red">9</td></tr>
+          <tr><td class="td-name">Marcos Aurélio Ribeiro</td><td class="td-center">Noite</td><td class="td-center">+1 ano</td><td class="td-center nps-red">6</td><td>Detrator · veterano abandonado</td><td class="td-center score-red">8</td></tr>
+          <tr><td class="td-name">Larissa Teixeira Gomes</td><td class="td-center">Tarde</td><td class="td-center">6–12m</td><td class="td-center nps-red">5</td><td>Falta atenção · acompanhamento zero</td><td class="td-center score-red">8</td></tr>
+          <tr><td class="td-name">Bruno Carvalho Dias</td><td class="td-center">Manhã</td><td class="td-center">+1 ano</td><td class="td-center nps-amber">7</td><td>Já pensou cancelar · atendimento irregular</td><td class="td-center score-red">7</td></tr>
+          <tr><td class="td-name">Vanessa Moura Pinto</td><td class="td-center">Noite</td><td class="td-center">+1 ano</td><td class="td-center nps-amber">6</td><td>Atendimento abaixo · NPS em queda</td><td class="td-center score-red">7</td></tr>
+          <tr><td class="td-name">Henrique Borges Silva</td><td class="td-center">Tarde</td><td class="td-center">6–12m</td><td class="td-center nps-amber">7</td><td>Ficha nunca trocada · instrutor ausente</td><td class="td-center score-red">6</td></tr>
+          <tr><td class="td-name">Isabela Cunha Freitas</td><td class="td-center">Manhã</td><td class="td-center">3–6m</td><td class="td-center nps-red">4</td><td>Período crítico · sem onboarding real</td><td class="td-center score-red">6</td></tr>
+          <tr><td class="td-name">Thiago Lopes Barbosa</td><td class="td-center">Noite</td><td class="td-center">+1 ano</td><td class="td-center nps-amber">8</td><td>Veterano · acúmulo de frustração</td><td class="td-center score-amber">5</td></tr>
+          <tr><td class="td-name">Ana Paula Ramos Correia</td><td class="td-center">Tarde</td><td class="td-center">6–12m</td><td class="td-center nps-amber">7</td><td>Acompanhamento insuficiente</td><td class="td-center score-amber">5</td></tr>
+          <tr><td class="td-name">Felipe Araújo Machado</td><td class="td-center">Manhã</td><td class="td-center">+1 ano</td><td class="td-center nps-amber">8</td><td>Ficha desatualizada · já pensou cancelar</td><td class="td-center score-amber">5</td></tr>
+          <tr><td class="td-name">Renata Sousa Cavalcante</td><td class="td-center">Noite</td><td class="td-center">3–6m</td><td class="td-center nps-amber">7</td><td>Período crítico · sem orientação técnica</td><td class="td-center score-amber">5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box red" style="margin-top:14px">
+      <strong>→ 17 alunos em risco imediato representam R$ 2.380/mês em risco</strong>
+      <p>Com ticket médio de R$140, perder esses 17 alunos significa queda direta de R$2.380 na receita mensal — sem contar o efeito negativo que detratores geram na captação.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- OPORTUNIDADE -->
+<section class="section" id="oportunidade">
+
+  <div class="card">
+    <div class="card-label">Potencial de Crescimento</div>
+    <h2>61 alunos receptivos a um plano com mais benefícios</h2>
+    <p>Mesmo com os problemas identificados, a pesquisa revelou abertura real para um plano premium — o que mostra que a base ainda tem confiança na academia e está disposta a investir mais, desde que receba mais em troca.</p>
+  </div>
+
+  <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+    <div class="metric"><div class="metric-val green">19</div><div class="metric-unit">alunos</div><div class="metric-label">Sim, com certeza</div></div>
+    <div class="metric"><div class="metric-val mag">42</div><div class="metric-unit">alunos</div><div class="metric-label">Talvez, depende do valor</div></div>
+    <div class="metric"><div class="metric-val amber">61</div><div class="metric-unit">alunos</div><div class="metric-label">Total receptivo</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Simulação de receita incremental</div>
+    <table class="tbl">
+      <tr><th>Cenário</th><th style="text-align:right">Conversão</th><th style="text-align:right">Receita extra/mês</th></tr>
+      <tr><td>Conservador (10% dos 61)</td><td style="text-align:right">~6 alunos</td><td style="text-align:right">+R$ 180</td></tr>
+      <tr class="hl"><td>Realista (20% dos 61)</td><td style="text-align:right">~12 alunos</td><td style="text-align:right">+R$ 360</td></tr>
+      <tr><td>Otimista (30% dos 61)</td><td style="text-align:right">~18 alunos</td><td style="text-align:right">+R$ 540</td></tr>
+    </table>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px">Simulação baseada em diferença de R$30/mês entre plano atual e plano premium.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Prioridades de ação — próximos 30 dias</div>
+    <div class="plist">
+      <div class="pitem"><div class="pnum">1</div><div class="ptext"><strong>Contato imediato com os 17 de alto risco</strong><span>Essa semana. Ligação ou mensagem personalizada. Não pode ser comunicado em massa.</span></div></div>
+      <div class="pitem"><div class="pnum">2</div><div class="ptext"><strong>Treinamento da equipe com base nos dados</strong><span>Usar as falas reais da pesquisa. Os professores precisam ver o que os alunos disseram com as próprias palavras.</span></div></div>
+      <div class="pitem"><div class="pnum">3</div><div class="ptext"><strong>Protocolo de troca de ficha proativa</strong><span>Definir prazo máximo de 45 dias para revisão de ficha — sem o aluno precisar pedir.</span></div></div>
+      <div class="pitem"><div class="pnum">4</div><div class="ptext"><strong>Estruturar plano premium para os 19 prontos</strong><span>Avaliação física + acompanhamento personalizado. Abordagem individual, não em massa.</span></div></div>
+      <div class="pitem"><div class="pnum">5</div><div class="ptext"><strong>Monitoramento semanal de frequência dos novatos</strong><span>Alunos com menos de 45 dias são o grupo com maior risco de evasão silenciosa.</span></div></div>
+    </div>
+  </div>
+
+</section>
+
+<footer class="footer">
+  <div class="footer-left">
+    Ecossistema IA Fitness™ · Sistema Lucro Invisível™
+    <span>Consultor Sherley Ferreira · Vitalize Academia · Abril 2026</span>
+  </div>
+  <div class="footer-right">
+    Análise baseada em 97 respostas<br>
+    Dados coletados via pesquisa de satisfação
+  </div>
+</footer>
+
+</main>
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
